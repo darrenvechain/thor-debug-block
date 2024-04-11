@@ -29,6 +29,7 @@
     "@vechain/sdk-network": "^1.0.0-beta.2"
   },
   "scripts": {
-    "debug": "ts-node scripts/debug.ts"
+    "debug": "ts-node scripts/debug.ts",
+    "compile": "hardhat compile"
   }
 }

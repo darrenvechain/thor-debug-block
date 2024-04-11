@@ -21,25 +21,25 @@ const deploy = async () => {
 const start = async () => {
     const contract = await deploy();
 
-    const revision = contract.deployTransactionReceipt?.meta.blockID;
+    const tx1 = await contract.transact.setNextBlock();
+    const receipt1 = await tx1.wait();
+    console.log(`TX1 block: ${receipt1?.meta.blockNumber}, Gas used: ${receipt1?.gasUsed}`);
 
-    console.log(`Contract deployed @ block ${contract.deployTransactionReceipt?.meta.blockNumber}`)
-
-    const estimation = await axios.post(`${baseUrl}/accounts/*?revision=${revision}`, {
+    const estimation = await axios.post(`${baseUrl}/accounts/*?revision=${receipt1?.meta.blockID}`, {
         clauses: [{
             to: contract.address,
-            data: contractInterface.encodeFunctionData("emitBlock"),
+            data: contractInterface.encodeFunctionData("setNextBlock"),
             value: "0x0",
         }]
     })
 
     const emittedBlock = estimation.data[0].events[0].data;
-    console.log(`Estimated block: ${BigInt(emittedBlock).toString()}`);
+    console.log(`Estimated block: ${BigInt(emittedBlock).toString()}, Gas used: ${estimation.data[0].gasUsed}`);
 
-    const { wait } = await contract.transact.emitBlock();
+    const { wait } = await contract.transact.setNextBlock();
     const receipt = await wait();
-    const txBlock = receipt?.outputs[0].events[0].data;
-    console.log(`TX block: ${BigInt(txBlock as string).toString()}`);
+
+    console.log(`TX2 block: ${receipt?.meta.blockNumber}, Gas used: ${receipt?.gasUsed}`);
 }
 
 start();

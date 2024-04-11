@@ -4,12 +4,7 @@ pragma solidity ^0.8.18;
 contract DebugBlock {
     event BlockEmitted(uint256 blockNumber);
 
-    mapping(uint256 => string) public blockData1;
-    mapping(uint256 => string) public blockData2;
-    mapping(uint256 => string) public blockData3;
-    mapping(uint256 => string) public blockData4;
-    mapping(uint256 => string) public blockData5;
-    mapping(uint256 => string) public blockData6;
+    mapping(uint256 => string) public blockData;
 
     uint256 private nextBlock;
 
@@ -21,12 +16,7 @@ contract DebugBlock {
             nextBlock = block.number;
             emit BlockEmitted(nextBlock);
 
-            blockData1[nextBlock] = "data1";
-            blockData2[nextBlock] = "data2";
-            blockData3[nextBlock] = "data3";
-            blockData4[nextBlock] = "data4";
-            blockData5[nextBlock] = "data5";
-            blockData6[nextBlock] = "data6";
+            blockData[nextBlock] = "data1";
         }
     }
 }

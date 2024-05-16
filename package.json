@@ -31,6 +31,7 @@
   },
   "scripts": {
     "debug": "ts-node scripts/debug.ts",
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "debug:eth": "yarn hardhat run scripts/debug-eth.ts --network localgeth"
   }
 }

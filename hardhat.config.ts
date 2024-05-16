@@ -16,6 +16,11 @@ const config: HardhatUserConfig = {
         },
     ],
   },
+  networks: {
+    localgeth: {
+      url: "http://localhost:8545",
+    }
+  }
 };
 
 export default config;

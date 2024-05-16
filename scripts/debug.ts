@@ -18,6 +18,11 @@ const deploy = async () => {
     return factory.waitForDeployment();
 }
 
+const numbToBlockRef = (blockNumber: number) => {
+    const blockRef =  BigInt(blockNumber).toString(16).padStart(16, "0");
+    return `0x${blockRef}`;
+}
+
 const start = async () => {
     const contract = await deploy();
 
@@ -32,7 +37,9 @@ const start = async () => {
     }]
 
     const simulated = await thorClient.transactions.simulateTransaction(clauses, { revision: receipt1?.meta.blockID })
-    const estimatedGas = await thorClient.gas.estimateGas(clauses);
+    const blockRef = BigInt(receipt1?.meta.blockNumber ?? 0).toString(16)
+    console.log(blockRef)
+    const estimatedGas = await thorClient.gas.estimateGas(clauses, undefined, {blockRef: numbToBlockRef(receipt1?.meta.blockNumber ?? 0) });
 
     // @ts-ignore
     console.log(`Estimated block: ${BigInt(simulated[0].events[0].data).toString()}, Gas used: ${estimatedGas.totalGas}`);
